@@ -1,22 +1,39 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { useAuth } from "../context/AuthContext";
 import logo from "../assets/logo3.svg";
 import logoGoogle from "../assets/logo-google.svg";
 import logoFacebook from "../assets/logo-facebook.svg";
 import logoMicrosoft from "../assets/logo-microsoft.svg";
 
 const Login = ({ setCurrentPage }) => {
-  const submitLoginForm = (e) => {
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const submitLoginForm = async (e) => {
     e.preventDefault();
-    alert("TODO: login with email and password");
+
+    if (loading) return;
+    setLoading(true);
+
+    login(emailRef.current.value, passwordRef.current.value)
+      .catch((err) => {
+        setError(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const forgotPassword = () => {
-    alert("TODO: password reset");
+    alert("TODO: implement password reset");
   };
 
   const loginWithProvider = (provider) => {
-    alert(`TODO: login with ${provider}`);
+    alert(`TODO: implement login with ${provider}`);
   };
 
   return (
@@ -38,6 +55,7 @@ const Login = ({ setCurrentPage }) => {
               <input
                 type="email"
                 placeholder="jon.snow@thewall.com"
+                ref={emailRef}
                 className="w-full p-2 transition duration-200 focus:outline-none focus:border-b-1 focus:border-indigo-700"
                 required
               />
@@ -51,6 +69,7 @@ const Login = ({ setCurrentPage }) => {
               <input
                 type="password"
                 placeholder="Enter your password"
+                ref={passwordRef}
                 className="w-full p-2 transition duration-200 focus:outline-none focus:border-b-1 focus:border-indigo-700"
                 required
               />
@@ -70,6 +89,7 @@ const Login = ({ setCurrentPage }) => {
               Sign in
             </button>
           </div>
+          {error && <p className="text-red-500 my-6">{error}</p>}
         </form>
         <div>
           <div className="my-2">

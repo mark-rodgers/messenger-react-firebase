@@ -79,7 +79,7 @@ const Register = ({ setCurrentPage }) => {
               Register
             </button>
           </div>
-          {error && <p className="text-red-500">{error}</p>}
+          {error && <p className="text-red-500 my-6">{error}</p>}
         </form>
       </div>
     </div>
