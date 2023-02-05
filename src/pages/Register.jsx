@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
-import logo from "../assets/logo3.svg";
+import { useAuth } from "../context/AuthContext";
 import { MdWest } from "react-icons/md";
+import logo from "../assets/logo3.svg";
 
 const Register = ({ setCurrentPage }) => {
-  const submitRegisterForm = (e) => {
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const { register } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const submitRegisterForm = async (e) => {
     e.preventDefault();
-    alert("TODO: register user");
+
+    if (loading) return;
+    setLoading(true);
+
+    register(emailRef.current.value, passwordRef.current.value)
+      .catch((err) => {
+        setError(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -37,6 +54,7 @@ const Register = ({ setCurrentPage }) => {
               <input
                 type="email"
                 placeholder="jon.snow@thewall.com"
+                ref={emailRef}
                 className="w-full p-2 transition duration-200 focus:outline-none focus:border-b-1 focus:border-indigo-700"
                 required
               />
@@ -50,6 +68,7 @@ const Register = ({ setCurrentPage }) => {
               <input
                 type="password"
                 placeholder="Enter your password"
+                ref={passwordRef}
                 className="w-full p-2 transition duration-200 focus:outline-none focus:border-b-1 focus:border-indigo-700"
                 required
               />
@@ -60,6 +79,7 @@ const Register = ({ setCurrentPage }) => {
               Register
             </button>
           </div>
+          {error && <p className="text-red-500">{error}</p>}
         </form>
       </div>
     </div>

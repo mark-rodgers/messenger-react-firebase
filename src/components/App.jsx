@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-// import { useAuthState } from "react-firebase-hooks/auth";
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Messenger from "../pages/Messenger";
@@ -7,9 +7,11 @@ import Messenger from "../pages/Messenger";
 const App = () => {
   const [currentPage, setCurrentPage] = useState("login");
 
+  const { currentUser } = useAuth();
+
   return (
     <>
-      {currentPage === "messenger" ? (
+      {currentUser && !currentUser.isAnonymous ? (
         <Messenger />
       ) : (
         <div className="min-h-screen min-w-screen bg-gradient-to-br from-violet-400 via-violet-400 to-pink-300">
