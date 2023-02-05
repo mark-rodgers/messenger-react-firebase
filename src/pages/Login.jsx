@@ -45,7 +45,7 @@ const Login = ({ setCurrentPage }) => {
     >
       <img src={logo} className="logo w-full max-w-xs my-12" alt="logoipsum" />
       <p className="text-4xl font-bold text-black mb-12">Sign in</p>
-      <div className="w-full min-w-max">
+      <div className="w-full min-w-[320px]">
         <form onSubmit={submitLoginForm}>
           <div className="flex flex-col">
             <label className="text-slate-700 text-sm font-medium">
@@ -89,7 +89,9 @@ const Login = ({ setCurrentPage }) => {
               Sign in
             </button>
           </div>
-          {error && <p className="text-red-500 my-6">{error}</p>}
+          {error && (
+            <p className="text-red-500 text-center my-6 mx-auto">{error}</p>
+          )}
         </form>
         <div>
           <div className="my-2">

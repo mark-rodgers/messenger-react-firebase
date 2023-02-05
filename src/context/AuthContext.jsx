@@ -3,6 +3,7 @@ import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
   onAuthStateChanged,
 } from "firebase/auth";
 
@@ -52,6 +53,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = async () => {
+    try {
+      return await signOut(auth);
+    } catch (err) {
+      switch (err.code) {
+        default:
+          console.log(err);
+          throw new Error("Something went wrong. Please try again later.");
+      }
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setLoading(false);
@@ -65,6 +78,7 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     register,
     login,
+    logout,
   };
 
   return (
