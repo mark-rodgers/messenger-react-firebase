@@ -20,8 +20,6 @@ const Messenger = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    console.log(currentUser);
-    console.log(textInput);
 
     addDoc(messagesCollectionRef, {
       uid: currentUser.uid,
@@ -43,7 +41,6 @@ const Messenger = () => {
       const unsubscribe = onSnapshot(
         q,
         (querySnapshot) => {
-          console.log(querySnapshot);
           let m = [];
           querySnapshot.forEach((doc) => {
             m.push(doc.data());
@@ -118,6 +115,14 @@ const Messenger = () => {
         </div>
       </div> */}
       <div className="flex-1 flex flex-col h-screen p-4">
+        <div className="text-center m-4">
+          <button
+            onClick={handleLogout}
+            className="w-full max-w-xs rounded-full transition duration-200 bg-violet-500 hover:bg-violet-600 text-white py-2 px-4"
+          >
+            Log out
+          </button>
+        </div>
         <div>
           <h1 className="text-2xl font-bold">Messages</h1>
         </div>
